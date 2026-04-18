@@ -16,7 +16,7 @@
 
 ---
 
-## 🏗 二、 构建方案 (Build Strategy)
+## 🛠 二、 构建方案 (Build Strategy)
 
 本项目采用 **“自动化像素构建”** 方案，所有的静态资源（图标）均在构建阶段生成，确保镜像的纯净与解耦。
 
@@ -30,7 +30,7 @@
 ### 2. 命令行执行
 ```bash
 # 构建 v1.4.0 版本
-docker build -t <your-hub-user>/argo-demo:v1.4.0 .
+docker build --network host -t <your-hub-user>/argocd-geo-demo:v1.0 .
 
 # 推送至 Docker Hub
 docker push <your-hub-user>/argo-demo:v1.4.0
