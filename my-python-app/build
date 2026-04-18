@@ -1,46 +1,40 @@
 #!/bin/bash
 
 # ==========================================
-# 自动化构建与版本控制脚本
+# 自动化构建脚本 (手动输入 Tag 模式)
 # ==========================================
 
 # 1. 定义镜像基础名称
 IMAGE_NAME="jasonops/argocd-geo-demo"
-VERSION_FILE=".version"
 
-# 2. 读取当前版本号，如果文件不存在则默认从 1.0 开始
-if [ -f "$VERSION_FILE" ]; then
-    CURRENT_VERSION=$(cat $VERSION_FILE)
-else
-    CURRENT_VERSION="1.0"
+echo "📦 准备构建镜像: $IMAGE_NAME"
+
+# 2. 提示用户手动输入 Tag
+read -p "👉 请输入本次构建的 Tag (例如: 1.0, v2.0-beta, latest): " USER_TAG
+
+# 3. 校验输入是否为空 (防止不小心直接按了回车)
+if [ -z "$USER_TAG" ]; then
+    echo "❌ 错误: Tag 不能为空！构建已取消。"
+    exit 1
 fi
 
-# 3. 自动计算下一个版本号 (基于 X.Y 格式，Y 自动 +1)
-BASE_VERSION=$(echo $CURRENT_VERSION | cut -d. -f1)
-MINOR_VERSION=$(echo $CURRENT_VERSION | cut -d. -f2)
-NEXT_MINOR=$((MINOR_VERSION + 1))
-NEXT_VERSION="$BASE_VERSION.$NEXT_MINOR"
-
-echo "📦 开始构建流程..."
-echo "🔹 当前版本 : $CURRENT_VERSION"
-echo "🚀 目标版本 : $NEXT_VERSION"
+echo "----------------------------------------"
+echo "🚀 即将开始构建: ${IMAGE_NAME}:${USER_TAG}"
 echo "----------------------------------------"
 
-# 4. 执行 Docker 构建 (使用 --network host 绕过 Ubuntu DNS 限制)
-docker build --network host -t ${IMAGE_NAME}:${NEXT_VERSION} .
+# 4. 执行 Docker 构建 (保留了 --network host 以绕过 DNS 限制)
+docker build --network host -t ${IMAGE_NAME}:${USER_TAG} .
 
 # 5. 状态检查与后续动作提示
 if [ $? -eq 0 ]; then
-    # 构建成功，将新版本号写入文件
-    echo $NEXT_VERSION > $VERSION_FILE
     echo "----------------------------------------"
     echo "✅ 构建成功！"
-    echo "🎉 镜像标签: ${IMAGE_NAME}:${NEXT_VERSION}"
+    echo "🎉 镜像标签: ${IMAGE_NAME}:${USER_TAG}"
     echo ""
     echo "下一步操作提示 (推送到 Docker Hub):"
-    echo "👉 docker push ${IMAGE_NAME}:${NEXT_VERSION}"
+    echo "👉 docker push ${IMAGE_NAME}:${USER_TAG}"
 else
     echo "----------------------------------------"
-    echo "❌ 构建失败！请检查上方报错信息。版本号未更新。"
+    echo "❌ 构建失败！请检查上方报错信息。"
     exit 1
 fi
