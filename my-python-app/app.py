@@ -85,7 +85,7 @@ def index():
     lang_code = request.args.get('lang') or os.getenv('APP_LANG', 'zh')
     t = I18N.get(lang_code, I18N['zh'])
     next_lang = 'en' if lang_code == 'zh' else 'zh'
-    version = os.getenv('APP_VERSION', 'v1.4.0')
+    version = os.getenv('APP_VERSION', 'v1.0')
     env_name = os.getenv('ENV_NAME', 'K3s-Cluster')
     return render_template_string(HTML_TEMPLATE, t=t, next_lang=next_lang, version=version, env_name=env_name, pod_ip=get_internal_ip(), public_ip=get_geo_info()[0], country=get_geo_info()[1])
 
