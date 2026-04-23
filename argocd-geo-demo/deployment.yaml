@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: geo-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: geo-service
+  template:
+    metadata:
+      labels:
+        app: geo-service
+    spec:
+      containers:
+      - name: geo-service
+        image: jasonops/argocd-geo-demo:v1
+        ports:
+        - containerPort: 5000
