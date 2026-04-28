@@ -1,0 +1,22 @@
+[1mdiff --git a/argocd-geo-demo/deployment.yaml b/argocd-geo-demo/deployment.yaml[m
+[1mindex a61719d..8b53ef0 100644[m
+[1m--- a/argocd-geo-demo/deployment.yaml[m
+[1m+++ b/argocd-geo-demo/deployment.yaml[m
+[36m@@ -4,7 +4,7 @@[m [mmetadata:[m
+   name: geo-service[m
+   namespace: geo-system[m
+ spec:[m
+[31m-  replicas: 1[m
+[32m+[m[32m  replicas: 3[m
+   selector:[m
+     matchLabels:[m
+       app: geo-service[m
+[36m@@ -15,6 +15,6 @@[m [mspec:[m
+     spec:[m
+       containers:[m
+       - name: geo-service[m
+[31m-        image: jasonops/argocd-geo-demo:v1.0[m
+[32m+[m[32m        image: jasonops/argocd-geo-demo:v3.0[m
+         ports:[m
+         - containerPort: 5000[m
+\ No newline at end of file[m
