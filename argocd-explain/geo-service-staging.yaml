@@ -1,0 +1,34 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: staging-geo-app
+  labels:
+    env: staging
+spec:
+  project: default
+  # 同步策略
+  syncPolicy:
+    # 自动功能会将应用程序与目标版本保持同步
+    automated:
+      # 启用此功能后，应用程序可以显式控制自动同步
+      enabled: true
+      # 自动清理在仓库不存在的资源,默认false
+      prune: true
+      # 自愈功能,手动调整集群资源自动协调会配置清单
+      selfHeal: true
+    # 重试策略
+    retry:
+      limit: 5
+      refresh: true
+  # 源地址
+  source:
+    # Git仓库
+    repoURL: https://github.com/wanqingfeng91-byte/argocd-example-apps.git
+    # 存放APHT
+    path: argocd-geo-demo
+    # 分支
+    targetRevision: main
+  destination:
+    # 指定目标集群 name or server 二选一
+    name: staging
+    #server: https://192.168.111.230:6443
