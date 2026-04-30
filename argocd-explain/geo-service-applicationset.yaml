@@ -1,0 +1,43 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: geo-service-appset
+  labels:
+    env: localhost
+spec:
+  # 生成器
+  generators:
+    # 手动列表形式添加集群
+    - list:
+        elements:
+          - cluster: staging
+            url: https://192.168.111.230:6443
+          - cluster: prod
+            url: https://192.168.111.231:6443
+  # 模板
+  template:
+    metadata:
+      name: '{{cluster}}-geo-service'
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/wanqingfeng91-byte/argocd-example-apps.git
+        path: argocd-geo-deployment
+        targetRevision: main
+      destination:
+        server: '{{url}}'
+        namespace: geo-service
+      # 同步策略
+      syncPolicy:
+        # 自动功能会将应用程序与目标版本保持同步
+        automated:
+          # 启用此功能后，应用程序可以显式控制自动同步
+          enabled: true
+          # 自动清理在仓库不存在的资源,默认false
+          prune: true
+          # 自愈功能,手动调整集群资源自动协调会配置清单
+          selfHeal: true
+
+      destination:
+        server: '{{url}}'
+        namespace: geo-service
