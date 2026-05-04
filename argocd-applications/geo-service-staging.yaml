@@ -5,7 +5,10 @@ metadata:
   labels:
     env: staging
   annotations:
+    # 启用服务端差异对比方式（Server-Side Diff）
     argocd.argoproj.io/compare-options: ServerSideDiff=true
+    # 间隔时间3分钟检查一下Git仓库清单
+    argocd.argoproj.io/refresh-interval: 3m
 spec:
   project: default
   # 同步策略
