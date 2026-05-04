@@ -4,6 +4,8 @@ metadata:
   name: staging-geo-app
   labels:
     env: staging
+  annotations:
+    argocd.argoproj.io/compare-options: ServerSideDiff=true
 spec:
   project: default
   # 同步策略
