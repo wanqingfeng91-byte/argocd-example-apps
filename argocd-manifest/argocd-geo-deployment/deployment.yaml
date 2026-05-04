@@ -4,7 +4,7 @@ metadata:
   name: geo-service
   namespace: geo-system
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: geo-service
@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
       - name: geo-service
-        image: jasonops/argocd-geo-demo:v1.0
+        image: jasonops/argocd-geo-demo:v2.0
         ports:
         - containerPort: 5000
