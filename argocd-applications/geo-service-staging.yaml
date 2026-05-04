@@ -25,7 +25,7 @@ spec:
     # Git仓库
     repoURL: https://github.com/wanqingfeng91-byte/argocd-example-apps.git
     # 存放APHT
-    path: argocd-geo-demo
+    path: argocd-manifest/argocd-geo-deployment
     # 分支
     targetRevision: main
   destination:
