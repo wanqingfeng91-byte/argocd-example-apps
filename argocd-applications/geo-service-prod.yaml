@@ -4,6 +4,7 @@ metadata:
   name: prod-geo-app
   labels:
     env: prod
+  namespace: argocd
 spec:
   project: default
   # 同步策略
