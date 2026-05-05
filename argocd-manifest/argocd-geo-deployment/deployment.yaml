@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
       - name: geo-service
-        image: jasonops/argocd-geo-demo:v1.0
+        image: jasonops/argocd-geo-demo:v3.0
         ports:
         - containerPort: 5000
