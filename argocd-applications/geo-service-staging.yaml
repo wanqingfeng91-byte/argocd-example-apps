@@ -4,6 +4,8 @@ metadata:
   name: staging-geo-app
   labels:
     env: staging
+  # 显式指定ns为argocd，默认argocd只处理arogcd的app资源
+  namespace: argocd
   annotations:
     # 启用服务端差异对比方式（Server-Side Diff）
     argocd.argoproj.io/compare-options: ServerSideDiff=true
